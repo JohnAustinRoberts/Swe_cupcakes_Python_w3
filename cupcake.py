@@ -1,6 +1,5 @@
 from flask import Blueprint, request, jsonify
 from cryptography.fernet import Fernet
-from user import login_required
 import json
 import os
 
@@ -12,7 +11,6 @@ def decrypt_instructions(cupcake):
     return cupcake
 
 @cupcake.get('/')
-@login_required
 def fetchAllCupcakes():
     with open("seedData.json", "r") as f:
         data = json.load(f)
@@ -23,7 +21,6 @@ def fetchAllCupcakes():
         return list(map(decrypt_instructions, data))
 
 @cupcake.get('/<int:cupcake_id>')
-@login_required
 def fetchCupcake(cupcake_id):
     with open("seedData.json", "r") as f:
         data = json.load(f)
@@ -44,7 +41,6 @@ def fetchCupcake(cupcake_id):
     
 
 @cupcake.post('/')
-@login_required
 def addCupcake():
     with open("seedData.json", "r") as f:
         data = json.load(f)
